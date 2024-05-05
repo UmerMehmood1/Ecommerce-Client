@@ -1,11 +1,13 @@
 package com.example.ecommerce_client.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerce_client.R
+import com.example.ecommerce_client.activities.ProductActivity
 import com.example.ecommerce_client.models.Product
 
 class CartAdapter(private val cartItems: ArrayList<Product>) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
@@ -28,6 +30,11 @@ class CartAdapter(private val cartItems: ArrayList<Product>) : RecyclerView.Adap
         holder.itemDescriptionTextView.text = currentItem.description
         holder.itemPriceTextView.text = currentItem.price.toString()
         holder.itemStockTextView.text = currentItem.stock.toString()
+        holder.itemView.rootView.setOnClickListener {
+            val intent = Intent(holder.itemView.context, ProductActivity::class.java)
+            intent.putExtra("product",currentItem)
+            holder.itemView.context.startActivity(intent)
+        }
     }
 
     override fun getItemCount() = cartItems.size
