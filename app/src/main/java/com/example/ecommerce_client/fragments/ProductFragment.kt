@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerce_client.R
@@ -31,7 +32,7 @@ class ProductFragment : Fragment(), ProductAdapter.OnItemClickListener {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.recyclerViewProducts.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewProducts.layoutManager = GridLayoutManager(requireContext(),2)
         productAdapter = ProductAdapter(productList, this)
         binding.recyclerViewProducts.adapter = productAdapter
         fetchDataFromFirebase()

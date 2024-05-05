@@ -57,6 +57,7 @@ class ProductActivity : AppCompatActivity() {
             productId = product.id.toString(),
             quantity = 1,
             totalPrice = product.price
+            , status = 0
         )
 
         // Save order to Firebase
