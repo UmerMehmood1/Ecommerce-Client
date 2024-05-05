@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
-        android:allowBackup="true"
         android:name=".MyApp"
+        android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -14,6 +16,9 @@
         android:theme="@style/Theme.EcommerceClient"
         tools:targetApi="31">
         <activity
+            android:name=".activities.CartActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.OrderActivity"
             android:exported="false" />
         <activity
@@ -21,7 +26,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.MainActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".activities.LoginActivity"
             android:exported="false" />
@@ -30,7 +35,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.SplashScreen"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
