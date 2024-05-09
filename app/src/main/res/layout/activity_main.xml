@@ -58,15 +58,12 @@
         </LinearLayout>
     </RelativeLayout>
     <FrameLayout
-        android:layout_margin="10dp"
         android:id="@+id/frameForFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/menuBar"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="80dp" >
-
-    </FrameLayout>
+        android:layout_marginBottom="80dp"
+        />
     <github.com.st235.lib_expandablebottombar.ExpandableBottomBar
         android:id="@+id/shop_home_expandable_bottom_bar"
         android:layout_width="match_parent"
