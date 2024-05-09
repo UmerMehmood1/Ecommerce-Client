@@ -29,7 +29,7 @@ class ProductActivity : AppCompatActivity() {
         // Set product details
         binding.textViewProductName.text = product.name
         binding.textViewProductDescription.text = product.description
-        binding.textViewProductPrice.text = "Price: ${product.price}"
+        binding.textViewProductPrice.text = "Price: $${product.price}"
 
         // Load product image using Glide
         Glide.with(this)

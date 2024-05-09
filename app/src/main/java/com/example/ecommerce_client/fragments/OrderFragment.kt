@@ -27,7 +27,7 @@ class OrderFragment : Fragment(), OrderAdapter.OnItemClickListener {
         val view = inflater.inflate(R.layout.fragment_order, container, false)
 
         recyclerView = view.findViewById(R.id.recyclerViewOrders)
-        recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
+        recyclerView.layoutManager = GridLayoutManager(requireContext(),1)
         orderAdapter = OrderAdapter(orderList, this)
         recyclerView.adapter = orderAdapter
 
