@@ -21,7 +21,7 @@ class CartActivity : AppCompatActivity() {
         Executors.newSingleThreadExecutor().execute {
             cartItems = MyApp.database.cartDao().getAll()
             runOnUiThread {
-                binding.recyclerViewCart.layoutManager = GridLayoutManager(this@CartActivity,3)
+                binding.recyclerViewCart.layoutManager = GridLayoutManager(this@CartActivity,2)
                 val adapter = ProductAdapter(cartItems as ArrayList<Product>, object : ProductAdapter.OnItemClickListener{
                     override fun onItemClick(product: Product) {
                         val intent = Intent(this@CartActivity, ProductActivity::class.java)

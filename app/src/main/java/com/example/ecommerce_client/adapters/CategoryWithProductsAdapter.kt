@@ -30,7 +30,7 @@ class CategoryWithProductsAdapter(private val categoryWithProductsList: List<Fir
         holder.categoryNameTextView.text = currentItem.categoryName
         // Set up RecyclerView for products
         holder.productsRecyclerView.apply {
-            layoutManager = GridLayoutManager(context, 3)
+            layoutManager = GridLayoutManager(context, 2)
             adapter = ProductAdapter(currentItem.products,object:
                 ProductAdapter.OnItemClickListener {
                 override fun onItemClick(product: Product) {
