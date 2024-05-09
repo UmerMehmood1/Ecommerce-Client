@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.ecommerce_client.AddDummyDataClass
 import com.example.ecommerce_client.R
 import com.example.ecommerce_client.SharedPreferencesManager
 import com.google.firebase.Firebase
@@ -26,6 +27,7 @@ class SplashScreen : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+//        AddDummyDataClass()
         Handler(Looper.getMainLooper()).postDelayed({
             val customerId = sharedPreferencesManager.getString("customerId", "")
             if (customerId.isEmpty()){

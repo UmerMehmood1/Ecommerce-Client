@@ -6,6 +6,35 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activities.CartActivity">
+    <RelativeLayout
+        android:background="@color/white"
+        android:id="@+id/menuBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:padding="5dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+            <ImageView
+                android:id="@+id/store_logo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/store_logo"/>
+            <TextView
+                android:id="@+id/store_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/store_name"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
     <TextView
         android:textColor="@color/orange"
         android:layout_width="wrap_content"

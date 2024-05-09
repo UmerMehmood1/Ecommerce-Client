@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerce_client.R
@@ -26,7 +27,7 @@ class OrderFragment : Fragment(), OrderAdapter.OnItemClickListener {
         val view = inflater.inflate(R.layout.fragment_order, container, false)
 
         recyclerView = view.findViewById(R.id.recyclerViewOrders)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = GridLayoutManager(requireContext(),3)
         orderAdapter = OrderAdapter(orderList, this)
         recyclerView.adapter = orderAdapter
 

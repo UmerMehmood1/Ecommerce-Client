@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp">
     <RelativeLayout
+        android:layout_alignParentTop="true"
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         >
         <ImageView
             android:id="@+id/backButton"
@@ -30,6 +31,8 @@
             />
     </RelativeLayout>
     <ImageView
+        android:layout_below="@+id/topBar"
+        android:layout_centerHorizontal="true"
         android:id="@+id/imageViewProduct"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -38,6 +41,7 @@
         />
 
     <TextView
+        android:layout_below="@id/imageViewProduct"
         android:id="@+id/textViewProductName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,17 +50,20 @@
         android:layout_marginBottom="16dp"/>
 
     <TextView
+        android:layout_below="@id/textViewProductName"
         android:id="@+id/textViewProductDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"/>
 
     <TextView
+        android:layout_below="@+id/textViewProductDescription"
         android:id="@+id/textViewProductPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"/>
     <LinearLayout
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -83,4 +90,4 @@
             app:tint="@color/white" />
 
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

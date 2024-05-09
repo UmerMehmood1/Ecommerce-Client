@@ -1,24 +1,76 @@
 package com.example.ecommerce_client
 
+import android.util.Log
 import com.example.ecommerce_client.models.Category
 import com.example.ecommerce_client.models.Customer
 import com.example.ecommerce_client.models.Order
 import com.example.ecommerce_client.models.Product
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 
 class FirebaseManager {
-
+    data class CategoryWithProducts(
+        val categoryName: String,
+        val products: List<Product>
+    )
     private val db = FirebaseFirestore.getInstance()
 
-    // CRUD operations for Product collection
+    // Function to fetch all categories and products
+    fun getAllCategoriesWithProducts(onSuccess: (List<CategoryWithProducts>) -> Unit, onFailure: (Exception) -> Unit) {
+        getAllCategories({ categories ->
+            val categoryWithProductsList = mutableListOf<CategoryWithProducts>()
+            val categoryCount = categories.size
+            var categoriesProcessed = 0
 
+            categories.forEach { category ->
+                getAllProductsByCategory(category.id,
+                    onSuccess = { products ->
+                        Log.d("FirebaseManager", "getAllCategoriesWithProducts: "+category.id)
+                        Log.d("FirebaseManager", "getAllCategoriesWithProducts: "+products)
+                        val categoryWithProducts = CategoryWithProducts(category.title, products)
+                        categoryWithProductsList.add(categoryWithProducts)
+                        categoriesProcessed++
+                        if (categoriesProcessed == categoryCount) {
+                            onSuccess(categoryWithProductsList)
+                        }
+                    },
+                    onFailure = { exception ->
+                        onFailure(exception)
+                    }
+                )
+            }
+        }, { exception ->
+            onFailure(exception)
+        })
+    }
+    // CRUD operations for Product collection
+    fun getAllProductsByCategory(categoryId: String, onSuccess: (List<Product>) -> Unit, onFailure: (Exception) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+
+        val products = mutableListOf<Product>()
+
+        db.collection("Product")
+            .whereEqualTo("categoryId", categoryId)
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    for (document in task.result!!) {
+                        val product = document.toObject(Product::class.java)
+                        products.add(product)
+                    }
+                    onSuccess(products)
+                } else {
+                    onFailure(task.exception!!)
+                }
+            }
+    }
     fun addProduct(product: Product, onSuccess: () -> Unit, onFailure: () -> Unit) {
         db.collection("Product")
             .add(product)
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onFailure() }
     }
-
     fun updateProduct(product: Product, onSuccess: () -> Unit, onFailure: () -> Unit) {
         db.collection("Product")
             .document(product.id.toString())
@@ -26,7 +78,6 @@ class FirebaseManager {
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onFailure() }
     }
-
     fun deleteProduct(productId: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
         db.collection("Product")
             .document(productId)
@@ -34,16 +85,13 @@ class FirebaseManager {
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onFailure() }
     }
-
     // CRUD operations for Category collection
-
-    fun addCategory(category: Category, onSuccess: () -> Unit, onFailure: () -> Unit) {
+    fun addCategory(category: Category, onSuccess: (category: Category) -> Unit, onFailure: () -> Unit) {
         db.collection("Category")
             .add(category)
-            .addOnSuccessListener { onSuccess() }
+            .addOnSuccessListener { onSuccess(category) }
             .addOnFailureListener { onFailure() }
     }
-
     fun updateCategory(category: Category, onSuccess: () -> Unit, onFailure: () -> Unit) {
         db.collection("Category")
             .document(category.id)
@@ -51,7 +99,6 @@ class FirebaseManager {
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onFailure() }
     }
-
     fun deleteCategory(categoryId: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
         db.collection("Category")
             .document(categoryId)
@@ -59,9 +106,7 @@ class FirebaseManager {
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onFailure() }
     }
-
     // CRUD operations for Customer collection
-
     fun addCustomer(customer: Customer, onSuccess: () -> Unit, onFailure: () -> Unit) {
         db.collection("Customer")
             .add(customer)

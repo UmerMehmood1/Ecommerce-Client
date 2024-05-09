@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.ecommerce_client.R
+import com.example.ecommerce_client.databinding.ItemProductBinding
 import com.example.ecommerce_client.models.Product
 
 class ProductAdapter(private val products: List<Product>, private val listener: OnItemClickListener) :
@@ -25,22 +26,21 @@ class ProductAdapter(private val products: List<Product>, private val listener: 
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val currentItem = filteredProducts[position]
-        holder.textViewProductName.text = currentItem.name
-        holder.textViewProductDescription.text = currentItem.description
-        Glide.with(holder.image.context)
+        holder.binding.textViewProductName.text = currentItem.name
+        holder.binding.textViewProductDescription.text = currentItem.description
+        Glide.with(holder.binding.image.context)
             .load(currentItem.imageUrl)
+            .centerCrop()
             .placeholder(R.drawable.no_image) // Placeholder image while loading
             .error(R.drawable.no_image) // Image to show on error
-            .into(holder.image)
+            .into(holder.binding.image)
+        holder.binding.textViewProductCategory.text = "Category: "+currentItem.categoryId
     }
 
     override fun getItemCount() = filteredProducts.size
 
     inner class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        val textViewProductName: TextView = itemView.findViewById(R.id.textViewProductName)
-        val textViewProductDescription: TextView = itemView.findViewById(R.id.textViewProductDescription)
-        val image: ImageView = itemView.findViewById(R.id.image)
-
+        val binding = ItemProductBinding.bind(itemView)
         init {
             itemView.setOnClickListener(this)
         }
