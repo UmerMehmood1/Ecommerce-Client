@@ -15,6 +15,7 @@ import com.example.ecommerce_client.activities.OrderActivity
 import com.example.ecommerce_client.adapters.OrderAdapter
 import com.example.ecommerce_client.models.Order
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.ArrayList
 
 class OrderFragment : Fragment(), OrderAdapter.OnItemClickListener {
 
@@ -28,9 +29,9 @@ class OrderFragment : Fragment(), OrderAdapter.OnItemClickListener {
 
         recyclerView = view.findViewById(R.id.recyclerViewOrders)
         recyclerView.layoutManager = GridLayoutManager(requireContext(),1)
-        orderAdapter = OrderAdapter(orderList, this)
+        orderAdapter = OrderAdapter(orderList as ArrayList<Order>, this)
         recyclerView.adapter = orderAdapter
-
+        orderAdapter.attachSwipeHelper(recyclerView)
         fetchOrdersFromFirebase()
 
         return view

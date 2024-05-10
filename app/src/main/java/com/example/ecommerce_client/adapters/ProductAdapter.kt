@@ -34,7 +34,6 @@ class ProductAdapter(private val products: List<Product>, private val listener: 
             .placeholder(R.drawable.no_image) // Placeholder image while loading
             .error(R.drawable.no_image) // Image to show on error
             .into(holder.binding.image)
-        holder.binding.textViewProductCategory.text = "Category: "+currentItem.categoryId
     }
 
     override fun getItemCount() = filteredProducts.size

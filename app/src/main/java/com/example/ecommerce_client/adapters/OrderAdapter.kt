@@ -1,11 +1,14 @@
 package com.example.ecommerce_client.adapters
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.ecommerce_client.FirebaseManager
@@ -13,10 +16,11 @@ import com.example.ecommerce_client.R
 import com.example.ecommerce_client.databinding.ItemOrderBinding
 import com.example.ecommerce_client.models.Order
 import com.example.ecommerce_client.models.Product
+import com.example.ecommerce_client.swipeHelpers.OrderItemSwipeHelper
 import java.text.SimpleDateFormat
 import java.util.*
 
-class OrderAdapter(private val orders: List<Order>, private val listener: OnItemClickListener) :
+class OrderAdapter(private val orders: ArrayList<Order>, private val listener: OnItemClickListener) :
     RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
     interface OnItemClickListener {
@@ -55,17 +59,31 @@ class OrderAdapter(private val orders: List<Order>, private val listener: OnItem
         holder.binding.textViewOrderId.text = "Order ID: ${currentItem.id}"
         holder.binding.textViewOrderDate.text = "Ordered On: "+formatDate(currentItem.orderDate)
         holder.binding.orderStatus.text = if (currentItem.status == Order.IS_PENDING){
-            holder.binding.orderStatus.background = ContextCompat.getDrawable(holder.binding.orderStatus.context, R.drawable.pending_status_bg)
+            holder.binding.orderStatus.setTextColor(ContextCompat.getColor(holder.binding.orderStatus.context,R.color.orange))
             "Pending"
         } else if (Order.IS_CENCELLED == currentItem.status) {
-            holder.binding.orderStatus.background = ContextCompat.getDrawable(holder.binding.orderStatus.context, R.drawable.cancelled_status_bg)
+            holder.binding.orderStatus.setTextColor(Color.parseColor("#F80000"))
             "Cancelled"
         } else{
-            holder.binding.orderStatus.background = ContextCompat.getDrawable(holder.binding.orderStatus.context, R.drawable.delivered_status_bg)
+            holder.binding.orderStatus.setTextColor(Color.parseColor("#4CAF50"))
             "Delivered"
         }
     }
+    fun attachSwipeHelper(recyclerView: RecyclerView) {
+        val itemTouchHelper = ItemTouchHelper(object : OrderItemSwipeHelper(ContextCompat.getDrawable(recyclerView.context, R.drawable.ic_delete)!!) {
 
+            override fun onSwipe(position: Int) {
+                orders.removeAt(position)
+                notifyItemRemoved(position)
+                FirebaseManager().deleteOrderByOrderId(orders[position].id, onSuccess = {
+                    Toast.makeText(recyclerView.context, "Order is cancelled successfully with id ${orders[position].id}", Toast.LENGTH_SHORT).show()
+                }, onFailure = {
+                    Toast.makeText(recyclerView.context, "Failed to cancel order with id ${orders[position].id}", Toast.LENGTH_SHORT).show()
+                })
+            }
+        })
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+    }
     override fun getItemCount() = orders.size
 
     inner class OrderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),

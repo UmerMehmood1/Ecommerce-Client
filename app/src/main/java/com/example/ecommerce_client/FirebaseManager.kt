@@ -144,7 +144,31 @@ class FirebaseManager {
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onFailure() }
     }
+    fun deleteOrderByOrderId(orderId: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        db.collection("Order")
+            .whereEqualTo("id", orderId)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                // Iterate through the query snapshot to delete each document
+                val deleteTasks = mutableListOf<com.google.android.gms.tasks.Task<Void>>()
+                for (document in querySnapshot.documents) {
+                    val deleteTask = db.collection("Order").document(document.id).delete()
+                    deleteTasks.add(deleteTask)
+                }
 
+                // Wait for all delete tasks to complete
+                com.google.android.gms.tasks.Tasks.whenAllComplete(deleteTasks)
+                    .addOnSuccessListener {
+                        onSuccess()
+                    }
+                    .addOnFailureListener { e ->
+                        onFailure(e as Exception)
+                    }
+            }
+            .addOnFailureListener { e ->
+                onFailure(e)
+            }
+    }
     fun deleteOrder(orderId: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
         db.collection("Order")
             .document(orderId)
