@@ -25,8 +25,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class ProductFragment : Fragment() {
     private lateinit var binding: FragmentProductBinding
-    private val productList = mutableListOf<Product>()
-    private val db = FirebaseFirestore.getInstance()
     private lateinit var categoryWithProducts : CategoryWithProductsAdapter
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentProductBinding.inflate(layoutInflater,container, false)
@@ -38,19 +36,29 @@ class ProductFragment : Fragment() {
         FirebaseManager().getAllCategoriesWithProducts(onSuccess = {
             categoryWithProducts = CategoryWithProductsAdapter(it.toSet().toList())
             binding.recyclerViewProducts.adapter = categoryWithProducts
+            binding.progress.visibility = View.GONE
+            if (it.isEmpty()) {
+                binding.recyclerViewProducts.visibility = View.INVISIBLE
+                binding.fragmentContainerProduct.visibility = View.VISIBLE
+                val emptyListFragment = EmptyListFragment()
+                emptyListFragment.setActionText("No Products. Products are coming soon")
+                replaceFragment(
+                    emptyListFragment
+                )
+                replaceFragment(EmptyListFragment())
+            } else {
+                binding.recyclerViewProducts.visibility = View.VISIBLE
+                binding.fragmentContainerProduct.visibility = View.INVISIBLE
+            }
         },
             onFailure = {
 
             })
-        binding.searchText.addTextChangedListener(object : TextWatcher{
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-            }
-        })
     }
+    private fun replaceFragment(fragment: Fragment) {
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragmentContainerProduct, fragment)
+        transaction.commit()
+    }
+
 }

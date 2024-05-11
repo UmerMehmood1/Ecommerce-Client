@@ -2,6 +2,7 @@ package com.example.ecommerce_client.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,28 +14,37 @@ import com.example.ecommerce_client.R
 import com.example.ecommerce_client.SharedPreferencesManager
 import com.example.ecommerce_client.activities.OrderActivity
 import com.example.ecommerce_client.adapters.OrderAdapter
+import com.example.ecommerce_client.databinding.FragmentOrderBinding
 import com.example.ecommerce_client.models.Order
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.ArrayList
 
 class OrderFragment : Fragment(), OrderAdapter.OnItemClickListener {
 
-    private lateinit var recyclerView: RecyclerView
     private lateinit var orderAdapter: OrderAdapter
     private val orderList = mutableListOf<Order>()
     private val db = FirebaseFirestore.getInstance()
+    lateinit var binding: FragmentOrderBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_order, container, false)
-
-        recyclerView = view.findViewById(R.id.recyclerViewOrders)
-        recyclerView.layoutManager = GridLayoutManager(requireContext(),1)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentOrderBinding.inflate(inflater, container, false)
+        binding.recyclerViewOrders.layoutManager = GridLayoutManager(requireContext(), 1)
         orderAdapter = OrderAdapter(orderList as ArrayList<Order>, this)
-        recyclerView.adapter = orderAdapter
-        orderAdapter.attachSwipeHelper(recyclerView)
+        binding.recyclerViewOrders.adapter = orderAdapter
+        orderAdapter.attachSwipeHelper(binding.recyclerViewOrders)
         fetchOrdersFromFirebase()
 
-        return view
+        return binding.root
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragmentContainerOrder, fragment)
+        transaction.commit()
     }
 
     private fun fetchOrdersFromFirebase() {
@@ -46,10 +56,28 @@ class OrderFragment : Fragment(), OrderAdapter.OnItemClickListener {
                 for (document in querySnapshot.documents) {
                     val order = document.toObject(Order::class.java)
                     order?.let {
-                        if (order.customerId == SharedPreferencesManager(requireContext()).getString("customerId","")){
+                        if (order.customerId == SharedPreferencesManager(requireContext()).getString(
+                                "customerId",
+                                ""
+                            )
+                        ) {
                             orderList.add(it)
                         }
                     }
+                }
+                binding.progress.visibility = View.GONE
+                if (orderList.isEmpty()) {
+                    binding.recyclerViewOrders.visibility = View.GONE
+                    binding.fragmentContainerOrder.visibility = View.VISIBLE
+                    val emptyListFragment = EmptyListFragment()
+                    emptyListFragment.setActionText("Nothing here. Order something to get started")
+                    replaceFragment(
+                        emptyListFragment
+                    )
+                    replaceFragment(emptyListFragment)
+                } else {
+                    binding.recyclerViewOrders.visibility = View.VISIBLE
+                    binding.fragmentContainerOrder.visibility = View.GONE
                 }
                 orderAdapter.notifyDataSetChanged()
             }
@@ -61,7 +89,23 @@ class OrderFragment : Fragment(), OrderAdapter.OnItemClickListener {
 
     override fun onItemClick(order: Order) {
         val intent = Intent(context, OrderActivity::class.java)
-        intent.putExtra("order",order)
+        intent.putExtra("order", order)
         context?.startActivity(intent)
+    }
+
+    override fun onItemSwiped() {
+        if (orderAdapter.itemCount == 0) {
+            binding.recyclerViewOrders.visibility = View.GONE
+            binding.fragmentContainerOrder.visibility = View.VISIBLE
+            val emptyListFragment = EmptyListFragment()
+            emptyListFragment.setActionText("Nothing here. Order something to get started")
+            replaceFragment(
+                emptyListFragment
+            )
+            replaceFragment(emptyListFragment)
+        } else {
+            binding.recyclerViewOrders.visibility = View.VISIBLE
+            binding.fragmentContainerOrder.visibility = View.GONE
+        }
     }
 }

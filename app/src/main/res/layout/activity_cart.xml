@@ -5,52 +5,75 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".activities.CartActivity">
+
     <RelativeLayout
-        android:background="@color/white"
         android:id="@+id/menuBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
         <LinearLayout
-            android:padding="5dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:gravity="center"
-            >
+            android:orientation="horizontal"
+            android:padding="5dp">
+
             <ImageView
                 android:id="@+id/store_logo"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/store_logo"/>
+                android:src="@drawable/store_logo" />
+
             <TextView
                 android:id="@+id/store_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/store_name"/>
+                android:text="@string/store_name" />
 
         </LinearLayout>
 
     </RelativeLayout>
 
     <TextView
-        android:textColor="@color/orange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Cart"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:layout_margin="10dp"/>
-    <androidx.recyclerview.widget.RecyclerView
         android:layout_margin="10dp"
-        android:id="@+id/recyclerViewCart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:text="My Cart"
+        android:textColor="@color/orange"
+        android:textSize="32sp"
+        android:textStyle="bold" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:indeterminateTint="@color/orange"
+            android:layout_centerInParent="true"
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainerCart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewCart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </RelativeLayout>
 </LinearLayout>

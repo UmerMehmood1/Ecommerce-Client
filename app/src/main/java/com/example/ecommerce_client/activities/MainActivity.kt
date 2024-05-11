@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import com.example.ecommerce_client.MyApp
 import com.example.ecommerce_client.R
 import com.example.ecommerce_client.databinding.ActivityMainBinding
 import com.example.ecommerce_client.fragments.OrderFragment
 import com.example.ecommerce_client.fragments.ProductFragment
+import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -19,6 +21,12 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Executors.newSingleThreadExecutor().execute {
+            val count = MyApp.database.cartDao().getTotalItemsCount()
+            runOnUiThread {
+                binding.numberOfItem.text = count.toString()
+            }
+        }
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -46,5 +54,15 @@ class MainActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.frameForFragment, fragment)
             .commit()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Executors.newSingleThreadExecutor().execute {
+            val count = MyApp.database.cartDao().getTotalItemsCount()
+            runOnUiThread {
+                binding.numberOfItem.text = count.toString()
+            }
+        }
     }
 }

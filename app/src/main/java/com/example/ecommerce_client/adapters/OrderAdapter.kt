@@ -20,16 +20,19 @@ import com.example.ecommerce_client.swipeHelpers.OrderItemSwipeHelper
 import java.text.SimpleDateFormat
 import java.util.*
 
-class OrderAdapter(private val orders: ArrayList<Order>, private val listener: OnItemClickListener) :
+class OrderAdapter(
+    private val orders: ArrayList<Order>,
+    private val listener: OnItemClickListener
+) :
     RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
     interface OnItemClickListener {
         fun onItemClick(order: Order)
+        fun onItemSwiped()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
-        val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_order, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_order, parent, false)
         return OrderViewHolder(itemView)
     }
 
@@ -52,42 +55,69 @@ class OrderAdapter(private val orders: ArrayList<Order>, private val listener: O
                 holder.binding.textViewProductName.text = "Product: ${product.name}"
 
             }
-        },
-            onFailure = {
+        },onFailure = {
 
             })
         holder.binding.textViewOrderId.text = "Order ID: ${currentItem.id}"
-        holder.binding.textViewOrderDate.text = "Ordered On: "+formatDate(currentItem.orderDate)
-        holder.binding.orderStatus.text = if (currentItem.status == Order.IS_PENDING){
-            holder.binding.orderStatus.setTextColor(ContextCompat.getColor(holder.binding.orderStatus.context,R.color.orange))
+        holder.binding.textViewOrderDate.text = "Ordered On: " + formatDate(currentItem.orderDate)
+        holder.binding.orderStatus.text = if (currentItem.status == Order.IS_PENDING) {
+            holder.binding.orderStatus.setTextColor(
+                ContextCompat.getColor(
+                    holder.binding.orderStatus.context,
+                    R.color.orange
+                )
+            )
             "Pending"
-        } else if (Order.IS_CENCELLED == currentItem.status) {
+        }
+        else if (Order.IS_CENCELLED == currentItem.status) {
             holder.binding.orderStatus.setTextColor(Color.parseColor("#F80000"))
             "Cancelled"
-        } else{
+        }
+        else {
             holder.binding.orderStatus.setTextColor(Color.parseColor("#4CAF50"))
             "Delivered"
         }
+        holder.binding.totalOrderPrice.text = currentItem.totalPrice.toString()
     }
+
     fun attachSwipeHelper(recyclerView: RecyclerView) {
-        val itemTouchHelper = ItemTouchHelper(object : OrderItemSwipeHelper(ContextCompat.getDrawable(recyclerView.context, R.drawable.ic_delete)!!) {
+        val itemTouchHelper = ItemTouchHelper(object : OrderItemSwipeHelper(
+            ContextCompat.getDrawable(
+                recyclerView.context,
+                R.drawable.baseline_delete_24
+            )!!
+        ) {
 
             override fun onSwipe(position: Int) {
-                orders.removeAt(position)
-                notifyItemRemoved(position)
-                FirebaseManager().deleteOrderByOrderId(orders[position].id, onSuccess = {
-                    Toast.makeText(recyclerView.context, "Order is cancelled successfully with id ${orders[position].id}", Toast.LENGTH_SHORT).show()
-                }, onFailure = {
-                    Toast.makeText(recyclerView.context, "Failed to cancel order with id ${orders[position].id}", Toast.LENGTH_SHORT).show()
-                })
+                Log.d("onSwipe", "onSwipe: $position")
+                val swipedOrder = orders[position]
+                if (position != RecyclerView.NO_POSITION) {
+                    FirebaseManager().deleteOrderByOrderId(swipedOrder.id, onSuccess = {
+                        orders.removeAt(position)
+                        notifyItemRemoved(position)
+                        listener.onItemSwiped()
+                        Toast.makeText(
+                            recyclerView.context,
+                            "Order is cancelled successfully with id ${swipedOrder.id}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }, onFailure = {
+                        listener.onItemSwiped()
+                        Toast.makeText(
+                            recyclerView.context,
+                            "Failed to cancel order with id ${swipedOrder.id}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    })
+                }
             }
         })
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
+
     override fun getItemCount() = orders.size
 
-    inner class OrderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
+    inner class OrderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var binding = ItemOrderBinding.bind(itemView)
 
         init {
