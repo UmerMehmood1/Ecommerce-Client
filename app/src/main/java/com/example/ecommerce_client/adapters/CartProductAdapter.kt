@@ -43,9 +43,15 @@ class CartProductAdapter(private val products: ArrayList<Product>, private val l
             Executors.newSingleThreadExecutor().execute {
                 MyApp.database.cartDao().delete(currentItem)
             }
-            products.removeAt(position)
-            listener.onListUpdate(products)
-            notifyItemRemoved(position)
+            if (position != RecyclerView.NO_POSITION) {
+
+                try {
+                    products.removeAt(position)
+                    listener.onListUpdate(products)
+                    notifyItemRemoved(position)
+                }
+                catch (e:Exception){}
+            }
         }
     }
 

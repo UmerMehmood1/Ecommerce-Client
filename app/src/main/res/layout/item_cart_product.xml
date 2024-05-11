@@ -38,6 +38,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:singleLine="true"
             android:textAlignment="center"
             android:maxLines="3"
             android:id="@+id/textViewProductDescription"

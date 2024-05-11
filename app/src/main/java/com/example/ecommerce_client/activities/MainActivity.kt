@@ -2,6 +2,7 @@ package com.example.ecommerce_client.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -9,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.ecommerce_client.MyApp
 import com.example.ecommerce_client.R
+import com.example.ecommerce_client.adapters.FragmentAdapter
 import com.example.ecommerce_client.databinding.ActivityMainBinding
 import com.example.ecommerce_client.fragments.OrderFragment
 import com.example.ecommerce_client.fragments.ProductFragment
@@ -27,6 +29,12 @@ class MainActivity : AppCompatActivity() {
                 binding.numberOfItem.text = count.toString()
             }
         }
+        val listOfFragment = ArrayList<Fragment>()
+        listOfFragment.add(ProductFragment())
+        listOfFragment.add(OrderFragment())
+        val adapter = FragmentAdapter(this, listOfFragment)
+        binding.viewPager.adapter = adapter
+        binding.viewPager.isUserInputEnabled = false
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -38,24 +46,16 @@ class MainActivity : AppCompatActivity() {
         binding.shopHomeExpandableBottomBar.onItemSelectedListener = { _, menuItem, _ ->
             when (menuItem.text.toString().lowercase()) {
                 "home" -> {
-                    replaceFragment(ProductFragment())
+                    binding.viewPager.currentItem = 0
                 }
                 "orders" -> {
-                    replaceFragment(OrderFragment())
+                    binding.viewPager.currentItem = 1
                 }
                 "profile" -> {
                 }
             }
         }
-        replaceFragment(ProductFragment())
     }
-    private fun replaceFragment(fragment: Fragment){
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.frameForFragment, fragment)
-            .commit()
-    }
-
     override fun onResume() {
         super.onResume()
         Executors.newSingleThreadExecutor().execute {
