@@ -2,17 +2,13 @@ package com.example.ecommerce_client.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerce_client.R
 import com.example.ecommerce_client.SharedPreferencesManager
-import com.example.ecommerce_client.activities.OrderActivity
 import com.example.ecommerce_client.adapters.OrderAdapter
 import com.example.ecommerce_client.databinding.FragmentOrderBinding
 import com.example.ecommerce_client.models.Order
@@ -82,15 +78,18 @@ class OrderFragment : Fragment(), OrderAdapter.OnItemClickListener {
                 orderAdapter.notifyDataSetChanged()
             }
             .addOnFailureListener { e ->
-                // Handle failure
-                // For example, show an error message
+                binding.recyclerViewOrders.visibility = View.INVISIBLE
+                binding.fragmentContainerOrder.visibility = View.VISIBLE
+                val emptyListFragment = EmptyListFragment()
+                emptyListFragment.setActionText("Please check internet connection")
+                replaceFragment(
+                    emptyListFragment
+                )
+                replaceFragment(EmptyListFragment())
             }
     }
 
     override fun onItemClick(order: Order) {
-        val intent = Intent(context, OrderActivity::class.java)
-        intent.putExtra("order", order)
-        context?.startActivity(intent)
     }
 
     override fun onItemSwiped() {
@@ -107,5 +106,10 @@ class OrderFragment : Fragment(), OrderAdapter.OnItemClickListener {
             binding.recyclerViewOrders.visibility = View.VISIBLE
             binding.fragmentContainerOrder.visibility = View.GONE
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        fetchOrdersFromFirebase()
     }
 }

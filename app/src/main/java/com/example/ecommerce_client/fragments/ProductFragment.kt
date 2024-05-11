@@ -1,26 +1,14 @@
 package com.example.ecommerce_client.fragments
-import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerce_client.FirebaseManager
 import com.example.ecommerce_client.R
-import com.example.ecommerce_client.activities.OrderActivity
-import com.example.ecommerce_client.activities.ProductActivity
 import com.example.ecommerce_client.adapters.CategoryWithProductsAdapter
-import com.example.ecommerce_client.adapters.ProductAdapter
 import com.example.ecommerce_client.databinding.FragmentProductBinding
-import com.example.ecommerce_client.models.Product
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
 
 
 class ProductFragment : Fragment() {
@@ -61,4 +49,35 @@ class ProductFragment : Fragment() {
         transaction.commit()
     }
 
+    override fun onResume() {
+        super.onResume()
+        FirebaseManager().getAllCategoriesWithProducts(onSuccess = {
+            categoryWithProducts = CategoryWithProductsAdapter(it.toSet().toList())
+            binding.recyclerViewProducts.adapter = categoryWithProducts
+            binding.progress.visibility = View.GONE
+            if (it.isEmpty()) {
+                binding.recyclerViewProducts.visibility = View.INVISIBLE
+                binding.fragmentContainerProduct.visibility = View.VISIBLE
+                val emptyListFragment = EmptyListFragment()
+                emptyListFragment.setActionText("No Products. Products are coming soon")
+                replaceFragment(
+                    emptyListFragment
+                )
+                replaceFragment(EmptyListFragment())
+            } else {
+                binding.recyclerViewProducts.visibility = View.VISIBLE
+                binding.fragmentContainerProduct.visibility = View.INVISIBLE
+            }
+        },
+            onFailure = {
+                binding.recyclerViewProducts.visibility = View.INVISIBLE
+                binding.fragmentContainerProduct.visibility = View.VISIBLE
+                val emptyListFragment = EmptyListFragment()
+                emptyListFragment.setActionText("Please check internet connection")
+                replaceFragment(
+                    emptyListFragment
+                )
+                replaceFragment(EmptyListFragment())
+            })
+    }
 }

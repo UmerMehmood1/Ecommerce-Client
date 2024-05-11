@@ -52,14 +52,14 @@ class OrderAdapter(
                     .placeholder(R.drawable.no_image) // Placeholder image while loading
                     .error(R.drawable.no_image) // Image to show on error
                     .into(holder.binding.productImage)
-                holder.binding.textViewProductName.text = "Product: ${product.name}"
+                holder.binding.textViewProductName.text = product.name
 
             }
         },onFailure = {
 
             })
-        holder.binding.textViewOrderId.text = "Order ID: ${currentItem.id}"
-        holder.binding.textViewOrderDate.text = "Ordered On: " + formatDate(currentItem.orderDate)
+        holder.binding.textViewOrderId.text = currentItem.id
+        holder.binding.textViewOrderDate.text = formatDate(currentItem.orderDate)
         holder.binding.orderStatus.text = if (currentItem.status == Order.IS_PENDING) {
             holder.binding.orderStatus.setTextColor(
                 ContextCompat.getColor(
@@ -77,7 +77,8 @@ class OrderAdapter(
             holder.binding.orderStatus.setTextColor(Color.parseColor("#4CAF50"))
             "Delivered"
         }
-        holder.binding.totalOrderPrice.text = currentItem.totalPrice.toString()
+        holder.binding.totalOrderPrice.text = "$${currentItem.totalPrice}"
+        holder.binding.quantity.text = currentItem.quantity.toString()
     }
 
     fun attachSwipeHelper(recyclerView: RecyclerView) {

@@ -38,40 +38,106 @@
             android:orientation="vertical"
             >
 
-
-            <TextView
-                android:id="@+id/textViewOrderId"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                >
 
-            <TextView
-                android:id="@+id/textViewProductName"
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Order ID" />
+
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/textViewOrderId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:text="Pending"
+                    android:gravity="left"
+                    android:textAlignment="gravity" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="left"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textSize="16sp" />
+                android:orientation="horizontal"
+                >
 
-            <TextView
-                android:id="@+id/textViewOrderDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textSize="14sp" />
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Product Title" />
+
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/textViewProductName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:gravity="left"
+                    android:textAlignment="gravity"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="1"
-                android:paddingVertical="5dp"
                 >
 
                 <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Ordered On" />
+
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/textViewOrderDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
+                    android:layout_marginHorizontal="10dp"
+                    android:text="Pending"
+                    android:textSize="12sp"
+                    android:gravity="left"
+                    android:textAlignment="gravity"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Quantity" />
+
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:gravity="left"
+                    android:textAlignment="gravity"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
                     android:text="Order Status" />
 
                 <TextView
@@ -80,23 +146,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
-                    android:layout_weight="0.5"
-                    android:padding="5dp"
                     android:text="Pending"
-                    android:textAlignment="center" />
+                    android:gravity="left"
+                    android:textAlignment="gravity" />
 
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="1"
                 >
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
                     android:text="Total Cost" />
 
                 <TextView
@@ -105,10 +168,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
-                    android:layout_weight="0.5"
-                    android:padding="5dp"
                     android:text="Pending"
-                    android:textAlignment="center" />
+                    android:gravity="left"
+                    android:textAlignment="gravity" />
 
             </LinearLayout>
 
