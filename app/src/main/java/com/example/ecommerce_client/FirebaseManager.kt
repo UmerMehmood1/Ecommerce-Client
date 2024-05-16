@@ -1,13 +1,12 @@
 package com.example.ecommerce_client
 
 import android.util.Log
-import com.example.ecommerce_client.models.Category
-import com.example.ecommerce_client.models.Customer
-import com.example.ecommerce_client.models.Order
-import com.example.ecommerce_client.models.Product
-import com.google.android.gms.tasks.OnCompleteListener
+import com.example.ecommerce_client.adminPackage.models.Admin
+import com.example.ecommerce_client.clientPackage.models.Category
+import com.example.ecommerce_client.clientPackage.models.Customer
+import com.example.ecommerce_client.clientPackage.models.Order
+import com.example.ecommerce_client.clientPackage.models.Product
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
 
 class FirebaseManager {
     data class CategoryWithProducts(
@@ -106,6 +105,8 @@ class FirebaseManager {
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onFailure() }
     }
+
+
     // CRUD operations for Customer collection
     fun addCustomer(customer: Customer, onSuccess: () -> Unit, onFailure: () -> Unit) {
         db.collection("Customer")
@@ -113,7 +114,6 @@ class FirebaseManager {
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onFailure() }
     }
-
     fun updateCustomer(customer: Customer, onSuccess: () -> Unit, onFailure: () -> Unit) {
         db.collection("Customer")
             .document(customer.id)
@@ -121,7 +121,6 @@ class FirebaseManager {
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onFailure() }
     }
-
     fun deleteCustomer(customerId: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
         db.collection("Customer")
             .document(customerId)
@@ -129,6 +128,30 @@ class FirebaseManager {
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onFailure() }
     }
+
+
+    // CRUD operations for Admin collection
+    fun addAdmin(admin: Admin, onSuccess: () -> Unit, onFailure: () -> Unit) {
+        db.collection("Admin")
+            .add(admin)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { onFailure() }
+    }
+    fun updateAdmin(customer: Admin, onSuccess: () -> Unit, onFailure: () -> Unit) {
+        db.collection("Admin")
+            .document(customer.id)
+            .set(customer)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { onFailure() }
+    }
+    fun deleteAdmin(adminId: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
+        db.collection("Admin")
+            .document(adminId)
+            .delete()
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { onFailure() }
+    }
+
 
     fun addOrder(order: Order, onSuccess: () -> Unit, onFailure: () -> Unit) {
         db.collection("Order")

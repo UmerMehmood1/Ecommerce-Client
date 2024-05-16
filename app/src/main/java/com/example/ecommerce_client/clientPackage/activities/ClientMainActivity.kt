@@ -1,8 +1,7 @@
-package com.example.ecommerce_client.activities
+package com.example.ecommerce_client.clientPackage.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -10,13 +9,13 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.ecommerce_client.MyApp
 import com.example.ecommerce_client.R
-import com.example.ecommerce_client.adapters.FragmentAdapter
+import com.example.ecommerce_client.clientPackage.adapters.FragmentAdapter
 import com.example.ecommerce_client.databinding.ActivityMainBinding
-import com.example.ecommerce_client.fragments.OrderFragment
-import com.example.ecommerce_client.fragments.ProductFragment
+import com.example.ecommerce_client.clientPackage.fragments.OrderFragment
+import com.example.ecommerce_client.clientPackage.fragments.ProductFragment
 import java.util.concurrent.Executors
 
-class MainActivity : AppCompatActivity() {
+class ClientMainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

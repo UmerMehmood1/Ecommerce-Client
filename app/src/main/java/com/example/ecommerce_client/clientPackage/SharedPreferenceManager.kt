@@ -1,4 +1,4 @@
-package com.example.ecommerce_client
+package com.example.ecommerce_client.clientPackage
 
 import android.content.Context
 import android.content.SharedPreferences

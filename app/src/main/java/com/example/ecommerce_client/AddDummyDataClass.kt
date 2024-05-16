@@ -1,7 +1,7 @@
 package com.example.ecommerce_client
 
-import com.example.ecommerce_client.models.Category
-import com.example.ecommerce_client.models.Product
+import com.example.ecommerce_client.clientPackage.models.Category
+import com.example.ecommerce_client.clientPackage.models.Product
 
 class AddDummyDataClass {
     // First, create instances of your FirebaseManager class

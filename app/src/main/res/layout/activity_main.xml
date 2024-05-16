@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity">
+    tools:context=".clientPackage.activities.ClientMainActivity">
     <RelativeLayout
         android:background="@color/white"
         android:id="@+id/menuBar"

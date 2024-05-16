@@ -1,4 +1,4 @@
-package com.example.ecommerce_client.swipeHelpers
+package com.example.ecommerce_client.clientPackage.swipeHelpers
 
 import android.content.res.Resources
 import android.graphics.Canvas

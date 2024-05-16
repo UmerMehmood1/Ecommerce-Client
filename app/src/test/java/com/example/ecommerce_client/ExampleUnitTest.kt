@@ -1,9 +1,5 @@
 package com.example.ecommerce_client
 
-import com.example.ecommerce_client.models.Category
-import com.example.ecommerce_client.models.Customer
-import com.example.ecommerce_client.models.Order
-import com.example.ecommerce_client.models.Product
 import org.junit.Test
 
 import org.junit.Assert.*

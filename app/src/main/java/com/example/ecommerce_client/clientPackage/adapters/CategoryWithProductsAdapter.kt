@@ -1,16 +1,15 @@
-package com.example.ecommerce_client.adapters
+package com.example.ecommerce_client.clientPackage.adapters
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerce_client.FirebaseManager
 import com.example.ecommerce_client.R
-import com.example.ecommerce_client.activities.ProductActivity
-import com.example.ecommerce_client.models.Product
+import com.example.ecommerce_client.clientPackage.activities.ProductActivity
+import com.example.ecommerce_client.clientPackage.models.Product
 
 class CategoryWithProductsAdapter(private val categoryWithProductsList: List<FirebaseManager.CategoryWithProducts>) :
     RecyclerView.Adapter<CategoryWithProductsAdapter.CategoryViewHolder>() {

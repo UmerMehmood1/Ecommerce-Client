@@ -1,4 +1,4 @@
-package com.example.ecommerce_client.models
+package com.example.ecommerce_client.clientPackage.models
 
 import java.io.Serializable
 import androidx.room.Entity

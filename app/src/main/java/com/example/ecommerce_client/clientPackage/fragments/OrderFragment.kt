@@ -1,6 +1,5 @@
-package com.example.ecommerce_client.fragments
+package com.example.ecommerce_client.clientPackage.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ecommerce_client.R
-import com.example.ecommerce_client.SharedPreferencesManager
-import com.example.ecommerce_client.adapters.OrderAdapter
+import com.example.ecommerce_client.clientPackage.SharedPreferencesManager
+import com.example.ecommerce_client.clientPackage.adapters.OrderAdapter
 import com.example.ecommerce_client.databinding.FragmentOrderBinding
-import com.example.ecommerce_client.models.Order
+import com.example.ecommerce_client.clientPackage.models.Order
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.ArrayList
 
@@ -21,6 +20,7 @@ class OrderFragment : Fragment(), OrderAdapter.OnItemClickListener {
     private val orderList = mutableListOf<Order>()
     private val db = FirebaseFirestore.getInstance()
     lateinit var binding: FragmentOrderBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,6 +62,9 @@ class OrderFragment : Fragment(), OrderAdapter.OnItemClickListener {
                     }
                 }
                 binding.progress.visibility = View.GONE
+                if (!this.isResumed){
+                    return@addOnSuccessListener
+                }
                 if (orderList.isEmpty()) {
                     binding.recyclerViewOrders.visibility = View.GONE
                     binding.fragmentContainerOrder.visibility = View.VISIBLE
@@ -111,5 +114,9 @@ class OrderFragment : Fragment(), OrderAdapter.OnItemClickListener {
     override fun onResume() {
         super.onResume()
         fetchOrdersFromFirebase()
+    }
+
+    override fun onPause() {
+        super.onPause()
     }
 }

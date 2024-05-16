@@ -1,16 +1,13 @@
-package com.example.ecommerce_client.adapters
+package com.example.ecommerce_client.clientPackage.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.ecommerce_client.MyApp
 import com.example.ecommerce_client.R
 import com.example.ecommerce_client.databinding.ItemCartProductBinding
-import com.example.ecommerce_client.databinding.ItemProductBinding
-import com.example.ecommerce_client.models.Product
+import com.example.ecommerce_client.clientPackage.models.Product
 import java.util.ArrayList
 import java.util.concurrent.Executors
 

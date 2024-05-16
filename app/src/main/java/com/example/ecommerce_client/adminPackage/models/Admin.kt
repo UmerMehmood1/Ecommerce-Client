@@ -1,8 +1,8 @@
-package com.example.ecommerce_client.models
+package com.example.ecommerce_client.adminPackage.models
 
 import java.io.Serializable
 
-data class Customer(
+data class Admin(
     val id: String = "",
     val name: String = "",
     val email: String = "",

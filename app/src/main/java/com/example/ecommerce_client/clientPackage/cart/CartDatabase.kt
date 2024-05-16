@@ -1,8 +1,8 @@
-package com.example.ecommerce_client.cart
+package com.example.ecommerce_client.clientPackage.cart
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.ecommerce_client.models.Product
+import com.example.ecommerce_client.clientPackage.models.Product
 
 @Database(entities = [Product::class], version = 1)
 abstract class CartDatabase : RoomDatabase() {

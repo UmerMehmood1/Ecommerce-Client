@@ -1,4 +1,4 @@
-package com.example.ecommerce_client.activities
+package com.example.ecommerce_client.clientPackage.activities
 
 import android.os.Bundle
 import android.util.Log
@@ -7,10 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.ecommerce_client.MyApp
 import com.example.ecommerce_client.R
-import com.example.ecommerce_client.SharedPreferencesManager
+import com.example.ecommerce_client.clientPackage.SharedPreferencesManager
 import com.example.ecommerce_client.databinding.ActivityProductBinding
-import com.example.ecommerce_client.models.Order
-import com.example.ecommerce_client.models.Product
+import com.example.ecommerce_client.clientPackage.models.Order
+import com.example.ecommerce_client.clientPackage.models.Product
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

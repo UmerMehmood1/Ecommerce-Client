@@ -1,11 +1,10 @@
-package com.example.ecommerce_client.adapters
+package com.example.ecommerce_client.clientPackage.adapters
 
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -14,9 +13,9 @@ import com.bumptech.glide.Glide
 import com.example.ecommerce_client.FirebaseManager
 import com.example.ecommerce_client.R
 import com.example.ecommerce_client.databinding.ItemOrderBinding
-import com.example.ecommerce_client.models.Order
-import com.example.ecommerce_client.models.Product
-import com.example.ecommerce_client.swipeHelpers.OrderItemSwipeHelper
+import com.example.ecommerce_client.clientPackage.models.Order
+import com.example.ecommerce_client.clientPackage.models.Product
+import com.example.ecommerce_client.clientPackage.swipeHelpers.OrderItemSwipeHelper
 import java.text.SimpleDateFormat
 import java.util.*
 

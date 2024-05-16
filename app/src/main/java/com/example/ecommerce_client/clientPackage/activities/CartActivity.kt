@@ -1,4 +1,4 @@
-package com.example.ecommerce_client.activities
+package com.example.ecommerce_client.clientPackage.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,14 +7,12 @@ import android.view.View.GONE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ecommerce_client.MyApp
 import com.example.ecommerce_client.R
-import com.example.ecommerce_client.adapters.CartProductAdapter
-import com.example.ecommerce_client.adapters.ProductAdapter
+import com.example.ecommerce_client.clientPackage.adapters.CartProductAdapter
 import com.example.ecommerce_client.databinding.ActivityCartBinding
-import com.example.ecommerce_client.fragments.EmptyListFragment
-import com.example.ecommerce_client.models.Product
+import com.example.ecommerce_client.clientPackage.fragments.EmptyListFragment
+import com.example.ecommerce_client.clientPackage.models.Product
 import java.util.concurrent.Executors
 
 class CartActivity : AppCompatActivity() {
@@ -49,7 +47,7 @@ class CartActivity : AppCompatActivity() {
 
                         override fun onListUpdate(updatedList: java.util.ArrayList<Product>) {
                             if (updatedList.isEmpty()) {
-                                binding.recyclerViewCart.visibility = View.GONE
+                                binding.recyclerViewCart.visibility = GONE
                                 binding.fragmentContainerCart.visibility = View.VISIBLE
                                 val emptyListFragment = EmptyListFragment()
                                 emptyListFragment.setActionText("Cart is empty at the moment. Go Shop and add favourite items to Cart.")

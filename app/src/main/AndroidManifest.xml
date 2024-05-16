@@ -16,25 +16,25 @@
         android:theme="@style/Theme.EcommerceClient"
         tools:targetApi="31">
         <activity
-            android:name=".activities.CartActivity"
+            android:name=".clientPackage.activities.CartActivity"
             android:exported="false" />
         <activity
             android:name=".activities.OrderActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.ProductActivity"
+            android:name=".clientPackage.activities.ProductActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".clientPackage.activities.ClientMainActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".clientPackage.activities.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.SignUpActivity"
+            android:name=".clientPackage.activities.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.SplashScreen"
+            android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

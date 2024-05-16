@@ -1,4 +1,4 @@
-package com.example.ecommerce_client.fragments
+package com.example.ecommerce_client.clientPackage.fragments
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ecommerce_client.FirebaseManager
 import com.example.ecommerce_client.R
-import com.example.ecommerce_client.adapters.CategoryWithProductsAdapter
+import com.example.ecommerce_client.clientPackage.adapters.CategoryWithProductsAdapter
 import com.example.ecommerce_client.databinding.FragmentProductBinding
 
 

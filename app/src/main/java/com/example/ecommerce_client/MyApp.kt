@@ -1,7 +1,7 @@
 package com.example.ecommerce_client
 import android.app.Application
 import androidx.room.Room
-import com.example.ecommerce_client.cart.CartDatabase
+import com.example.ecommerce_client.clientPackage.cart.CartDatabase
 
 class MyApp : Application() {
 

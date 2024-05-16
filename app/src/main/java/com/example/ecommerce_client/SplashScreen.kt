@@ -1,4 +1,4 @@
-package com.example.ecommerce_client.activities
+package com.example.ecommerce_client
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -9,10 +9,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.ecommerce_client.AddDummyDataClass
-import com.example.ecommerce_client.R
-import com.example.ecommerce_client.SharedPreferencesManager
-import com.google.firebase.Firebase
+import com.example.ecommerce_client.clientPackage.SharedPreferencesManager
+import com.example.ecommerce_client.clientPackage.activities.ClientMainActivity
+import com.example.ecommerce_client.clientPackage.activities.SignUpActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreen : AppCompatActivity() {
@@ -27,7 +26,17 @@ class SplashScreen : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-//        AddDummyDataClass()
+        Handler(Looper.getMainLooper()).postDelayed({
+            val customerId = sharedPreferencesManager.getString("adminId", "")
+            if (customerId.isEmpty()){
+                startActivity(Intent(this, SignUpActivity::class.java))
+                finish()
+            }
+            else{
+                startActivity(Intent(this, ClientMainActivity::class.java))
+                finish()
+            }
+        }, 1000)
         Handler(Looper.getMainLooper()).postDelayed({
             val customerId = sharedPreferencesManager.getString("customerId", "")
             if (customerId.isEmpty()){
@@ -35,7 +44,7 @@ class SplashScreen : AppCompatActivity() {
                 finish()
             }
             else{
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this, ClientMainActivity::class.java))
                 finish()
             }
         }, 1000)

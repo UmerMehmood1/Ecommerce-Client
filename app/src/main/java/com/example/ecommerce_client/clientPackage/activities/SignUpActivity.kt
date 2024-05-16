@@ -1,11 +1,11 @@
-package com.example.ecommerce_client.activities
+package com.example.ecommerce_client.clientPackage.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.ecommerce_client.SharedPreferencesManager
+import com.example.ecommerce_client.clientPackage.SharedPreferencesManager
 import com.example.ecommerce_client.databinding.ActivitySignUpBinding
-import com.example.ecommerce_client.models.Customer
+import com.example.ecommerce_client.clientPackage.models.Customer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -39,6 +39,9 @@ class SignUpActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             }
+        }
+        binding.adminButton.setOnClickListener {
+
         }
     }
 
