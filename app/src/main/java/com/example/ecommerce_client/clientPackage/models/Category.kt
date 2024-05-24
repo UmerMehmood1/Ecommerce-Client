@@ -7,5 +7,5 @@ data class Category(
     val title: String = "",
     val imageUrl: String = "",
     val description: String = "",
-    val position: Int = 0
+    val position: String = ""
 ): Serializable

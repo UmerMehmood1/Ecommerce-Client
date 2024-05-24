@@ -12,10 +12,10 @@ data class Product(
     val description: String,
     val categoryId: String,
     val imageUrl: String,
-    val price: Double,
+    val price: String,
     val cost: Double,
-    val stock: Int,
+    val stock: String,
     val weight: Double
 ) : Serializable {
-    constructor() : this("", "", "", "", "", 0.0, 0.0, 0, 0.0)
+    constructor() : this("", "", "", "", "", "0.0", 0.0, "0", 0.0)
 }

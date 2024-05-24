@@ -64,7 +64,7 @@ class ProductActivity : AppCompatActivity() {
             customerId = SharedPreferencesManager(this).getString("customerId",""), // Replace "customerId" with actual customerId
             productId = product.id,
             quantity = quantity,
-            totalPrice = product.price * quantity
+            totalPrice = product.price.toDouble() * quantity
             , status = 0
         )
 
