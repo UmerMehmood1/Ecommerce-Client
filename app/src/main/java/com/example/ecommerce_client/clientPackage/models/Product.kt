@@ -13,9 +13,9 @@ data class Product(
     val categoryId: String,
     val imageUrl: String,
     val price: String,
-    val cost: Double,
+    val cost: String,
     val stock: String,
-    val weight: Double
+    val weight: String
 ) : Serializable {
-    constructor() : this("", "", "", "", "", "0.0", 0.0, "0", 0.0)
+    constructor() : this("", "", "", "", "", "0.0", "0.0", "0", "0.0")
 }

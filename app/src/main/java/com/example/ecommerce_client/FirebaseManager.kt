@@ -1,7 +1,6 @@
 package com.example.ecommerce_client
 
 import android.util.Log
-import com.example.ecommerce_client.adminPackage.models.Admin
 import com.example.ecommerce_client.clientPackage.models.Category
 import com.example.ecommerce_client.clientPackage.models.Customer
 import com.example.ecommerce_client.clientPackage.models.Order
@@ -131,26 +130,26 @@ class FirebaseManager {
 
 
     // CRUD operations for Admin collection
-    fun addAdmin(admin: Admin, onSuccess: () -> Unit, onFailure: () -> Unit) {
-        db.collection("Admin")
-            .add(admin)
-            .addOnSuccessListener { onSuccess() }
-            .addOnFailureListener { onFailure() }
-    }
-    fun updateAdmin(customer: Admin, onSuccess: () -> Unit, onFailure: () -> Unit) {
-        db.collection("Admin")
-            .document(customer.id)
-            .set(customer)
-            .addOnSuccessListener { onSuccess() }
-            .addOnFailureListener { onFailure() }
-    }
-    fun deleteAdmin(adminId: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
-        db.collection("Admin")
-            .document(adminId)
-            .delete()
-            .addOnSuccessListener { onSuccess() }
-            .addOnFailureListener { onFailure() }
-    }
+//    fun addAdmin(admin: Admin, onSuccess: () -> Unit, onFailure: () -> Unit) {
+//        db.collection("Admin")
+//            .add(admin)
+//            .addOnSuccessListener { onSuccess() }
+//            .addOnFailureListener { onFailure() }
+//    }
+//    fun updateAdmin(customer: Admin, onSuccess: () -> Unit, onFailure: () -> Unit) {
+//        db.collection("Admin")
+//            .document(customer.id)
+//            .set(customer)
+//            .addOnSuccessListener { onSuccess() }
+//            .addOnFailureListener { onFailure() }
+//    }
+//    fun deleteAdmin(adminId: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
+//        db.collection("Admin")
+//            .document(adminId)
+//            .delete()
+//            .addOnSuccessListener { onSuccess() }
+//            .addOnFailureListener { onFailure() }
+//    }
 
 
     fun addOrder(order: Order, onSuccess: () -> Unit, onFailure: () -> Unit) {
