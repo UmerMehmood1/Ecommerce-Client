@@ -113,7 +113,9 @@ class OrderFragment : Fragment(), OrderAdapter.OnItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        fetchOrdersFromFirebase()
+        try {
+            fetchOrdersFromFirebase()
+        }catch (_:Exception){}
     }
 
     override fun onPause() {

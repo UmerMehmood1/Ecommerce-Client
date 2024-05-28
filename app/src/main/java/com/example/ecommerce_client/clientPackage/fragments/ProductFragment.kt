@@ -22,7 +22,8 @@ class ProductFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerViewProducts.layoutManager = LinearLayoutManager(requireContext())
         FirebaseManager().getAllCategoriesWithProducts(onSuccess = {
-            categoryWithProducts = CategoryWithProductsAdapter(it.toSet().toList())
+
+            categoryWithProducts = CategoryWithProductsAdapter(it.toSet().toList().sortedBy { it.categoryName })
             binding.recyclerViewProducts.adapter = categoryWithProducts
             binding.progress.visibility = View.GONE
             if (it.isEmpty()) {
@@ -42,6 +43,7 @@ class ProductFragment : Fragment() {
             onFailure = {
 
             })
+
     }
     private fun replaceFragment(fragment: Fragment) {
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
@@ -51,6 +53,8 @@ class ProductFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        try {
+
         FirebaseManager().getAllCategoriesWithProducts(onSuccess = {
             categoryWithProducts = CategoryWithProductsAdapter(it.toSet().toList())
             binding.recyclerViewProducts.adapter = categoryWithProducts
@@ -79,5 +83,7 @@ class ProductFragment : Fragment() {
                 )
                 replaceFragment(EmptyListFragment())
             })
+        }
+        catch (_:Exception){}
     }
 }

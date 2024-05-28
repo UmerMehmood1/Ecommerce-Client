@@ -42,6 +42,8 @@ class ProductActivity : AppCompatActivity() {
 
         binding.buttonPlaceOrder.setOnClickListener {
             placeOrder()
+            finish()
+
         }
         binding.addToCart.setOnClickListener {
             addToCart(product)
@@ -74,7 +76,6 @@ class ProductActivity : AppCompatActivity() {
             .set(order)
             .addOnSuccessListener {
                 Toast.makeText(this, "Order placed successfully", Toast.LENGTH_SHORT).show()
-                finish()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Check Internet Connection", Toast.LENGTH_SHORT).show()

@@ -54,9 +54,12 @@ class OrderAdapter(
                 holder.binding.textViewProductName.text = product.name
 
             }
+            else{
+                holder.binding.textViewProductName.text = "This product has been removed"
+                holder.binding.textViewProductName.setTextColor(Color.RED)
+            }
         },onFailure = {
-
-            })
+        })
         holder.binding.textViewOrderId.text = currentItem.id
         holder.binding.textViewOrderDate.text = formatDate(currentItem.orderDate)
         holder.binding.orderStatus.text = if (currentItem.status == Order.IS_PENDING) {
