@@ -96,14 +96,17 @@ class OrderAdapter(
                 val swipedOrder = orders[position]
                 if (position != RecyclerView.NO_POSITION) {
                     FirebaseManager().deleteOrderByOrderId(swipedOrder.id, onSuccess = {
-                        orders.removeAt(position)
-                        notifyItemRemoved(position)
-                        listener.onItemSwiped()
-                        Toast.makeText(
-                            recyclerView.context,
-                            "Order is cancelled successfully with id ${swipedOrder.id}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        try {
+                            orders.removeAt(position)
+                            notifyItemRemoved(position)
+                            listener.onItemSwiped()
+                            Toast.makeText(
+                                recyclerView.context,
+                                "Order is cancelled successfully with id ${swipedOrder.id}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        catch (_:Exception){}
                     }, onFailure = {
                         listener.onItemSwiped()
                         Toast.makeText(
