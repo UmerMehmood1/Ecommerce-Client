@@ -1,4 +1,5 @@
 package com.example.ecommerce_client.clientPackage.adapters
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +12,12 @@ import com.example.ecommerce_client.clientPackage.models.Product
 import java.util.ArrayList
 import java.util.concurrent.Executors
 
-class CartProductAdapter(private val products: ArrayList<Product>, private val listener: OnItemClickListener) :
-    RecyclerView.Adapter<CartProductAdapter.CartProductViewHolder>() {
+class CartProductAdapter(
+    private val products: ArrayList<Product>,
+    private val listener: OnItemClickListener
+) : RecyclerView.Adapter<CartProductAdapter.CartProductViewHolder>() {
 
-    private var filteredProducts: ArrayList<Product> = products
+    private var filteredProducts: ArrayList<Product> = ArrayList(products)
 
     interface OnItemClickListener {
         fun onItemClick(product: Product)
@@ -36,18 +39,17 @@ class CartProductAdapter(private val products: ArrayList<Product>, private val l
             .placeholder(R.drawable.no_image) // Placeholder image while loading
             .error(R.drawable.no_image) // Image to show on error
             .into(holder.binding.image)
+
         holder.binding.removeFromCartButton.setOnClickListener {
             Executors.newSingleThreadExecutor().execute {
                 MyApp.database.cartDao().delete(currentItem)
             }
             if (position != RecyclerView.NO_POSITION) {
-
-                try {
-                    products.removeAt(position)
-                    listener.onListUpdate(products)
-                    notifyItemRemoved(position)
-                }
-                catch (e:Exception){}
+                products.remove(currentItem)
+                filteredProducts.remove(currentItem)
+                listener.onListUpdate(ArrayList(products))
+                notifyItemRemoved(position)
+                notifyItemRangeChanged(position, filteredProducts.size)
             }
         }
     }
@@ -56,6 +58,7 @@ class CartProductAdapter(private val products: ArrayList<Product>, private val l
 
     inner class CartProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val binding = ItemCartProductBinding.bind(itemView)
+
         init {
             itemView.setOnClickListener(this)
         }
@@ -70,10 +73,10 @@ class CartProductAdapter(private val products: ArrayList<Product>, private val l
 
     fun filter(query: String) {
         filteredProducts = if (query.isEmpty()) {
-            products
-        } else ({
-            products.filter { it.name.contains(query, ignoreCase = true) }
-        }) as ArrayList<Product>
+            ArrayList(products)
+        } else {
+            ArrayList(products.filter { it.name.contains(query, ignoreCase = true) })
+        }
         notifyDataSetChanged()
     }
 }

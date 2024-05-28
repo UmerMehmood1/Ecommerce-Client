@@ -17,55 +17,58 @@ import java.util.concurrent.Executors
 
 class CartActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCartBinding
-    private var cartItems = ArrayList<Product>() as List<Product>
+    private var cartItems = ArrayList<Product>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         Executors.newSingleThreadExecutor().execute {
-            cartItems = MyApp.database.cartDao().getAll()
+            cartItems = MyApp.database.cartDao().getAll() as ArrayList<Product>
             runOnUiThread {
                 binding.progress.visibility = GONE
                 if (cartItems.isEmpty()) {
-                    binding.recyclerViewCart.visibility = View.GONE
-                    binding.fragmentContainerCart.visibility = View.VISIBLE
-                    val emptyListFragment = EmptyListFragment()
-                    emptyListFragment.setActionText("Cart is empty at the moment. Go Shop and add favourite items to Cart.")
-                    replaceFragment(
-                        emptyListFragment
-                    )
+                    showEmptyCartMessage()
                 } else {
-                    binding.recyclerViewCart.visibility = View.VISIBLE
-                    binding.fragmentContainerCart.visibility = View.GONE
-                    binding.recyclerViewCart.layoutManager = GridLayoutManager(this@CartActivity,2)
-                    val adapter = CartProductAdapter(cartItems as ArrayList<Product>, object : CartProductAdapter.OnItemClickListener{
-                        override fun onItemClick(product: Product) {
-                            val intent = Intent(this@CartActivity, ProductActivity::class.java)
-                            intent.putExtra("product",product)
-                            startActivity(intent)
-                        }
-
-                        override fun onListUpdate(updatedList: java.util.ArrayList<Product>) {
-                            if (updatedList.isEmpty()) {
-                                binding.recyclerViewCart.visibility = GONE
-                                binding.fragmentContainerCart.visibility = View.VISIBLE
-                                val emptyListFragment = EmptyListFragment()
-                                emptyListFragment.setActionText("Cart is empty at the moment. Go Shop and add favourite items to Cart.")
-                                replaceFragment(
-                                    emptyListFragment
-                                )
-                            }
-                        }
-                    })
-                    binding.recyclerViewCart.adapter = adapter
+                    setupRecyclerView()
                 }
             }
         }
     }
+
+    private fun showEmptyCartMessage() {
+        binding.recyclerViewCart.visibility = View.GONE
+        binding.fragmentContainerCart.visibility = View.VISIBLE
+        val emptyListFragment = EmptyListFragment()
+        emptyListFragment.setActionText("Cart is empty at the moment. Go Shop and add favourite items to Cart.")
+        replaceFragment(emptyListFragment)
+    }
+
+    private fun setupRecyclerView() {
+        binding.recyclerViewCart.visibility = View.VISIBLE
+        binding.fragmentContainerCart.visibility = View.GONE
+        binding.recyclerViewCart.layoutManager = GridLayoutManager(this@CartActivity, 2)
+
+        val adapter = CartProductAdapter(cartItems, object : CartProductAdapter.OnItemClickListener {
+            override fun onItemClick(product: Product) {
+                val intent = Intent(this@CartActivity, ProductActivity::class.java)
+                intent.putExtra("product", product)
+                startActivity(intent)
+            }
+
+            override fun onListUpdate(updatedList: ArrayList<Product>) {
+                if (updatedList.isEmpty()) {
+                    showEmptyCartMessage()
+                }
+            }
+        })
+        binding.recyclerViewCart.adapter = adapter
+    }
+
     private fun replaceFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragmentContainerCart, fragment)
         transaction.commit()
     }
-
 }
